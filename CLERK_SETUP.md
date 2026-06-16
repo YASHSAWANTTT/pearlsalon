@@ -51,9 +51,9 @@ npx clerk@latest env pull --instance prod
 3. Events: `user.created`, `user.updated`, `user.deleted`
 4. Copy signing secret → `CLERK_WEBHOOK_SECRET` on Vercel.
 
-## 5. Session token (required for roles)
+## 5. Session token (optional, for faster proxy checks)
 
-Clerk Dashboard → **Sessions** → **Customize session token**:
+Clerk Dashboard → **Sessions** → **Customize session token** (optional):
 
 ```json
 {
@@ -63,7 +63,9 @@ Clerk Dashboard → **Sessions** → **Customize session token**:
 }
 ```
 
-Set each staff user’s **public metadata** → `role`: `"admin"` or `"staff"`.
+Role checks use `publicMetadata.role` in app layouts — this token customization is optional.
+
+Set each staff user’s **public metadata** → `role`: `"admin"` or `"staff"` (lowercase key and value).
 
 ## 6. Social sign-in (if used)
 
