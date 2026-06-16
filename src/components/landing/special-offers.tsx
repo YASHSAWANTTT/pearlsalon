@@ -32,11 +32,11 @@ const offers = [
 
 export function SpecialOffers() {
   return (
-    <section className="bg-secondary/40 py-24">
+    <section className="bg-secondary/40 py-16 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="text-center">
           <p className="eyebrow">Limited time</p>
-          <h2 className="mt-4 font-serif text-4xl font-light text-foreground sm:text-5xl">
+          <h2 className="mt-4 font-serif text-3xl font-light text-foreground sm:text-4xl md:text-5xl">
             Special <span className="italic text-primary">offers</span>
           </h2>
           <p className="mx-auto mt-4 max-w-md text-sm text-muted-foreground">
@@ -44,11 +44,11 @@ export function SpecialOffers() {
           </p>
         </div>
 
-        <div className="mt-14 grid gap-6 md:grid-cols-3">
+        <div className="mt-10 grid gap-5 sm:mt-14 sm:gap-6 md:grid-cols-3">
           {offers.map((offer) => (
             <article
               key={offer.title}
-              className={`flex flex-col rounded-2xl p-8 shadow-sm ${
+              className={`flex flex-col rounded-2xl p-6 shadow-sm sm:p-8 ${
                 offer.featured
                   ? "bg-primary text-primary-foreground"
                   : "border border-border bg-card text-foreground"
@@ -70,7 +70,7 @@ export function SpecialOffers() {
                 {offer.description}
               </p>
               <p
-                className={`mt-6 font-serif text-5xl ${
+                className={`mt-6 font-serif text-4xl sm:text-5xl ${
                   offer.featured ? "text-primary-foreground" : "text-primary"
                 }`}
               >

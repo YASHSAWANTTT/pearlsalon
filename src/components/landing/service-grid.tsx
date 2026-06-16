@@ -17,7 +17,7 @@ export function ServiceGrid({ services, showActions = true }: Props) {
         return (
           <article
             key={service.id}
-            className="group relative flex min-h-[200px] flex-col bg-card p-8 transition-colors hover:bg-secondary/50"
+            className="group relative flex min-h-0 flex-col bg-card p-6 transition-colors hover:bg-secondary/50 sm:min-h-[200px] sm:p-8"
           >
             <span className="pointer-events-none absolute left-0 top-0 h-full w-0.5 origin-top scale-y-0 bg-primary transition-transform duration-300 group-hover:scale-y-100" />
 
@@ -25,8 +25,8 @@ export function ServiceGrid({ services, showActions = true }: Props) {
               <Icon className="h-4 w-4" strokeWidth={1.5} />
             </div>
 
-            <div className="flex items-start justify-between gap-4">
-              <h3 className="font-serif text-2xl leading-tight text-foreground">{service.name}</h3>
+            <div className="flex items-start justify-between gap-3 sm:gap-4">
+              <h3 className="font-serif text-xl leading-tight text-foreground sm:text-2xl">{service.name}</h3>
               <p className="shrink-0 font-serif text-lg text-primary">
                 {formatPrice(service.price)}
               </p>
@@ -40,22 +40,22 @@ export function ServiceGrid({ services, showActions = true }: Props) {
               <p className="mt-3 flex-1 text-sm text-muted-foreground">{service.category}</p>
             )}
 
-            <div className="mt-6 flex items-center justify-between">
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <p className="flex items-center text-[11px] font-medium uppercase tracking-[0.15em] text-muted-foreground">
                 <span className="mr-2 inline-block h-1.5 w-1.5 rounded-full bg-primary" />
                 {formatDuration(service.durationMinutes)}
               </p>
               {showActions && (
-                <div className="flex gap-4 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                <div className="flex gap-4 opacity-100 sm:opacity-0 sm:transition-opacity sm:duration-200 sm:group-hover:opacity-100">
                   <Link
                     href={`/book?service=${service.id}`}
-                    className="text-xs font-medium uppercase tracking-wider text-primary hover:underline"
+                    className="rounded-md py-1 text-xs font-medium uppercase tracking-wider text-primary hover:underline"
                   >
                     Book
                   </Link>
                   <Link
                     href={`/queue?service=${service.id}`}
-                    className="text-xs font-medium uppercase tracking-wider text-muted-foreground hover:text-foreground hover:underline"
+                    className="rounded-md py-1 text-xs font-medium uppercase tracking-wider text-muted-foreground hover:text-foreground hover:underline"
                   >
                     Walk in
                   </Link>

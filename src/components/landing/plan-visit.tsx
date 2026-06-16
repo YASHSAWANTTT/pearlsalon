@@ -63,11 +63,11 @@ export function PlanVisit({ settings, hours }: Props) {
     : phone;
 
   return (
-    <section className="bg-background py-24">
+    <section className="bg-background py-16 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="text-center">
           <p className="eyebrow">Come see us</p>
-          <h2 className="mt-4 font-serif text-4xl font-light text-foreground sm:text-5xl">
+          <h2 className="mt-4 font-serif text-3xl font-light text-foreground sm:text-4xl md:text-5xl">
             Plan your <span className="italic text-primary">visit</span>
           </h2>
           <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-muted-foreground">
@@ -75,8 +75,8 @@ export function PlanVisit({ settings, hours }: Props) {
           </p>
         </div>
 
-        <div className="mt-16 grid gap-12 lg:grid-cols-2 lg:gap-16">
-          <div className="space-y-10">
+        <div className="mt-12 grid gap-10 sm:mt-16 lg:grid-cols-2 lg:gap-16">
+          <div className="order-2 space-y-8 sm:space-y-10 lg:order-1">
             <div className="flex gap-4">
               <MapPin className="mt-1 h-4 w-4 shrink-0 text-primary" strokeWidth={1.5} />
               <div>
@@ -132,10 +132,10 @@ export function PlanVisit({ settings, hours }: Props) {
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Link
                 href="/book"
-                className="inline-flex rounded-full bg-primary px-8 py-3.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                className="inline-flex w-full items-center justify-center rounded-full bg-primary px-8 py-3.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 sm:w-auto"
               >
                 Reserve a Time
               </Link>
@@ -143,7 +143,7 @@ export function PlanVisit({ settings, hours }: Props) {
                 href={SALON_CONTACT.whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-8 py-3.5 text-sm font-medium text-foreground transition-colors hover:border-[#25D366]/50"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-border bg-card px-8 py-3.5 text-sm font-medium text-foreground transition-colors hover:border-[#25D366]/50 sm:w-auto"
               >
                 <MessageCircle className="h-4 w-4 text-[#25D366]" />
                 WhatsApp us
@@ -151,7 +151,7 @@ export function PlanVisit({ settings, hours }: Props) {
             </div>
           </div>
 
-          <div className="relative min-h-[360px] overflow-hidden rounded-2xl border border-border bg-secondary/50">
+          <div className="relative order-1 min-h-[260px] overflow-hidden rounded-2xl border border-border bg-secondary/50 sm:min-h-[320px] lg:order-2 lg:min-h-[360px]">
             <iframe
               src={SALON_CONTACT.mapsEmbedUrl}
               title={`${SALON_NAME} on Google Maps`}

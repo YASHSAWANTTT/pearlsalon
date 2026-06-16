@@ -3,6 +3,7 @@ import { Cormorant_Garamond, Inter } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/theme-provider";
+import { MobileDockShell } from "@/components/layout/mobile-dock-shell";
 import { SALON_NAME, SALON_TAGLINE } from "@/lib/constants";
 import "./globals.css";
 
@@ -35,7 +36,7 @@ export default function RootLayout({
       <html lang="en" className={`${inter.variable} ${cormorant.variable} h-full`} suppressHydrationWarning>
         <body className="min-h-full flex flex-col font-sans antialiased">
           <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
-            {children}
+            <MobileDockShell>{children}</MobileDockShell>
             <Toaster richColors position="top-right" />
           </ThemeProvider>
         </body>

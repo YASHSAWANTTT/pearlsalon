@@ -18,7 +18,7 @@ function SocialIcon({
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      className="flex h-9 w-9 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:border-primary hover:text-primary"
+      className="flex h-11 w-11 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:border-primary hover:text-primary"
     >
       {children}
     </a>
@@ -28,15 +28,16 @@ function SocialIcon({
 export function PublicFooter() {
   return (
     <footer className="mt-auto border-t border-border bg-card">
-      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
           <div className="max-w-md">
             <PearlLogo
               src={FOOTER_LOGO_SRC}
               width={1084}
               height={1286}
-              size="xl"
+              size="lg"
               href={null}
+              imageClassName="sm:!h-28"
             />
             <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
               A quiet place to feel like yourself again. Thank you for letting us care for you.
@@ -94,6 +95,10 @@ export function PublicFooter() {
             <span>·</span>
             <Link href="#" className="hover:text-primary">
               Terms
+            </Link>
+            <span>·</span>
+            <Link href="/staff" className="hover:text-primary">
+              Staff login
             </Link>
           </p>
         </div>
