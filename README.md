@@ -1,4 +1,4 @@
-# Pearl Beauty and Spa Salon
+# Pearl
 
 A full-featured salon management system built with Next.js, Neon Postgres, Clerk, and Drizzle ORM.
 

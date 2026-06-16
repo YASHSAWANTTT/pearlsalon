@@ -46,10 +46,7 @@ export function HeroSection() {
           {/* Hero copy */}
           <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center px-6 pb-8 pt-24 lg:px-12 lg:pt-28">
             <div className="mx-auto max-w-lg text-center lg:mx-0 lg:max-w-2xl lg:text-left">
-              <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-primary drop-shadow-sm">
-                Pearl Beauty &amp; Spa Salon
-              </p>
-              <h1 className="mt-8 max-w-2xl text-balance font-serif text-5xl font-light text-foreground drop-shadow-sm md:text-6xl xl:text-7xl">
+              <h1 className="max-w-2xl text-balance font-serif text-5xl font-light text-foreground drop-shadow-sm md:text-6xl xl:text-7xl">
                 A quiet place to feel like{" "}
                 <span className="italic text-primary">yourself</span> again
               </h1>

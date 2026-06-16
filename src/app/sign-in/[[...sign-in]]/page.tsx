@@ -1,5 +1,6 @@
 import { SignIn } from "@clerk/nextjs";
 import Link from "next/link";
+import { SALON_NAME } from "@/lib/constants";
 
 type Props = {
   searchParams: Promise<{ error?: string }>;
@@ -22,7 +23,7 @@ export default async function SignInPage({ searchParams }: Props) {
         </Link>
         <div className="relative z-10">
           <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-primary-foreground/70">
-            Pearl Beauty &amp; Spa
+            {SALON_NAME}
           </p>
           <h2 className="mt-6 max-w-sm font-serif text-4xl font-light leading-[1.1]">
             The team portal, kept calm and in order.
@@ -33,7 +34,7 @@ export default async function SignInPage({ searchParams }: Props) {
           </p>
         </div>
         <p className="relative z-10 text-xs text-primary-foreground/60">
-          © {new Date().getFullYear()} Pearl Beauty &amp; Spa Salon
+          © {new Date().getFullYear()} {SALON_NAME}
         </p>
       </aside>
 
@@ -42,7 +43,7 @@ export default async function SignInPage({ searchParams }: Props) {
         <div className="w-full max-w-md">
           <div className="mb-8 text-center">
             <p className="eyebrow flex items-center justify-center lg:hidden">
-              Pearl Beauty &amp; Spa
+              {SALON_NAME}
             </p>
             <h1 className="mt-3 font-serif text-3xl font-light tracking-tight text-foreground">
               Staff login

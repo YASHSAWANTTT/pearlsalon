@@ -1,6 +1,6 @@
 # Twilio SMS Notifications
 
-Pearl Beauty & Spa sends booking and queue alerts via **Twilio SMS** — normal
+Pearl sends booking and queue alerts via **Twilio SMS** — normal
 free-form text, no Meta template approval needed.
 
 WhatsApp (Meta Cloud API) code remains in `src/lib/whatsapp/` for later but is
@@ -58,7 +58,7 @@ a phone saved in **Admin → Staff**.
 ## 4. Example messages
 
 **Client (booking submitted):**
-> Hi Priya! We've received your booking for Gold Facial on Monday, June 16, 2026 at 11:00 AM. We'll confirm it shortly. See you at Pearl Beauty & Spa Salon!
+> Hi Priya! We've received your booking for Gold Facial on Monday, June 16, 2026 at 11:00 AM. We'll confirm it shortly. See you at Pearl Salon!
 
 **Business:**
 > New booking: Priya (+919876543210) — Gold Facial on Monday, June 16, 2026 at 11:00 AM. Awaiting confirmation.

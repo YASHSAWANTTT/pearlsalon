@@ -1,4 +1,4 @@
-/** Pearl Beauty & Spa Salon — official rate card */
+/** Pearl — official rate card */
 export const SERVICE_CATEGORY_ORDER = [
   "Facials",
   "D-Tan",

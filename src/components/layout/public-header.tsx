@@ -6,6 +6,7 @@ import { Menu } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { SALON_NAME } from "@/lib/constants";
 import { PearlLogo } from "@/components/layout/pearl-logo";
 import { cn } from "@/lib/utils";
 
@@ -76,7 +77,7 @@ export function PublicHeader() {
             </SheetTrigger>
             <SheetContent side="right" className="w-72 border-border bg-background">
               <div className="mt-8 flex flex-col gap-1 px-2">
-                <p className="eyebrow mb-4 px-3">Pearl Beauty &amp; Spa</p>
+                <p className="eyebrow mb-4 px-3">{SALON_NAME}</p>
                 {navLinks.map((link) => {
                   const active = pathname === link.href;
                   return (

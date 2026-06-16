@@ -119,7 +119,7 @@ export const businessHours = pgTable("business_hours", {
 
 export const salonSettings = pgTable("salon_settings", {
   id: uuid("id").primaryKey().defaultRandom(),
-  name: varchar("name", { length: 255 }).notNull().default("Pearl Beauty & Spa Salon"),
+  name: varchar("name", { length: 255 }).notNull().default("Pearl"),
   address: text("address"),
   phone: varchar("phone", { length: 50 }),
   timezone: varchar("timezone", { length: 100 }).notNull().default("America/New_York"),

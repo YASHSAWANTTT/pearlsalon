@@ -1,4 +1,5 @@
 import type { Service } from "@/db/schema";
+import { SALON_NAME } from "@/lib/constants";
 
 export type ExtractedLogItem = {
   logDate: string;
@@ -76,7 +77,7 @@ export async function extractLogbookFromImage(
     .map((s) => `${s.name} (₹${parseFloat(s.price)})`)
     .join("\n");
 
-  const prompt = `You are reading a handwritten salon logbook photo for Pearl Beauty & Spa Salon in India.
+  const prompt = `You are reading a handwritten salon logbook photo for ${SALON_NAME} salon in India.
 
 The page is a table. Columns are usually: Name | Service | Cash | GP (GPay).
 Each customer row may list one or more services and an amount written in EITHER the Cash or the GP column.

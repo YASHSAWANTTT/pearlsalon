@@ -21,7 +21,7 @@ Add to `.env.local` (and Vercel when you deploy):
 
 ```bash
 RESEND_API_KEY=re_...
-RESEND_FROM_EMAIL=Pearl Beauty & Spa <onboarding@resend.dev>
+RESEND_FROM_EMAIL=Pearl <onboarding@resend.dev>
 RESEND_BUSINESS_EMAIL=you@gmail.com
 ```
 
@@ -45,7 +45,7 @@ When you have a domain (e.g. `pearlsalon.in`):
 2. After verification, switch env vars:
 
 ```bash
-RESEND_FROM_EMAIL=Pearl Beauty & Spa <hello@yourdomain.com>
+RESEND_FROM_EMAIL=Pearl <hello@yourdomain.com>
 RESEND_BUSINESS_EMAIL=owner@yourdomain.com
 ```
 
@@ -60,7 +60,7 @@ Then customer emails work for **any** address they enter on the booking form.
 
 ```bash
 RESEND_API_KEY=re_...
-RESEND_FROM_EMAIL=Pearl Beauty & Spa <hello@yourdomain.com>
+RESEND_FROM_EMAIL=Pearl <hello@yourdomain.com>
 RESEND_BUSINESS_EMAIL=owner@yourdomain.com
 ```
 

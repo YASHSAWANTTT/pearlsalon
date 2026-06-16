@@ -1,4 +1,4 @@
-export const SALON_NAME = "Pearl Beauty & Spa Salon";
+export const SALON_NAME = "Pearl";
 export const SALON_TAGLINE = "Where elegance meets relaxation";
 
 export const SALON_CONTACT = {
@@ -7,8 +7,11 @@ export const SALON_CONTACT = {
   phone: "+919987881614",
   phoneDisplay: "+91 99878 81614",
   whatsappUrl: "https://wa.me/+919987881614",
-  mapsUrl:
-    "https://www.google.com/maps/search/?api=1&query=Shop+No+54,+Vardhaman+Vatika,+Dhokali,+Thane+West,+Maharashtra+400607",
+  facebookUrl: "https://www.facebook.com/pearlbeautyandspasalon/",
+  instagramUrl: "https://www.instagram.com/pearlbeautyandspasalon/",
+  mapsUrl: "https://maps.app.goo.gl/nV28jQSntsKDN7LW9",
+  mapsEmbedUrl:
+    "https://maps.google.com/maps?width=100%25&height=600&hl=en&q=19.2239083,72.9788826&z=16&ie=UTF8&iwloc=B&output=embed",
 } as const;
 
 export const APPOINTMENT_STATUSES = [

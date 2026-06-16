@@ -12,7 +12,7 @@ type SendResult = { ok: boolean; error?: string };
 function getConfig() {
   return {
     apiKey: process.env.RESEND_API_KEY,
-    from: process.env.RESEND_FROM_EMAIL ?? "Pearl Beauty & Spa <onboarding@resend.dev>",
+    from: process.env.RESEND_FROM_EMAIL ?? "Pearl <onboarding@resend.dev>",
   };
 }
 

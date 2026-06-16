@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Clock, MapPin, MessageCircle, Phone } from "lucide-react";
-import { SALON_CONTACT } from "@/lib/constants";
+import { SALON_CONTACT, SALON_NAME } from "@/lib/constants";
 import type { BusinessHour, SalonSetting } from "@/db/schema";
 
 function formatTime12h(time: string) {
@@ -107,15 +107,6 @@ export function PlanVisit({ settings, hours }: Props) {
                 >
                   {phoneDisplay}
                 </a>
-                <a
-                  href={SALON_CONTACT.whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-3 inline-flex items-center gap-2 rounded-full border border-[#25D366]/40 bg-[#25D366]/10 px-4 py-2 text-sm font-medium text-[#128C7E] transition-colors hover:bg-[#25D366]/15 dark:text-[#25D366]"
-                >
-                  <MessageCircle className="h-4 w-4" />
-                  Chat on WhatsApp
-                </a>
               </div>
             </div>
 
@@ -160,30 +151,25 @@ export function PlanVisit({ settings, hours }: Props) {
             </div>
           </div>
 
-          <a
-            href={SALON_CONTACT.mapsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group relative block min-h-[360px] overflow-hidden rounded-2xl border border-border bg-secondary/50 transition-colors hover:border-primary/40"
-          >
-            <div
-              className="absolute inset-0 opacity-30"
-              style={{
-                backgroundImage:
-                  "repeating-linear-gradient(45deg, var(--primary) 0, var(--primary) 1px, transparent 0, transparent 50%)",
-                backgroundSize: "12px 12px",
-              }}
+          <div className="relative min-h-[360px] overflow-hidden rounded-2xl border border-border bg-secondary/50">
+            <iframe
+              src={SALON_CONTACT.mapsEmbedUrl}
+              title={`${SALON_NAME} on Google Maps`}
+              className="absolute inset-0 h-full w-full border-0"
+              loading="lazy"
+              allowFullScreen
+              referrerPolicy="no-referrer-when-downgrade"
             />
-            <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
-              <MapPin className="h-8 w-8 text-primary" strokeWidth={1.5} />
-              <p className="mt-3 text-[10px] font-medium uppercase tracking-[0.2em] text-primary">
-                Dhokali, Thane West
-              </p>
-              <p className="mt-2 max-w-xs text-sm text-muted-foreground group-hover:text-foreground">
-                Tap to open in Google Maps
-              </p>
-            </div>
-          </a>
+            <a
+              href={SALON_CONTACT.mapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="absolute bottom-4 right-4 inline-flex items-center gap-2 rounded-full border border-border bg-background/95 px-4 py-2 text-xs font-medium text-foreground shadow-sm backdrop-blur-sm transition-colors hover:border-primary/40 hover:text-primary"
+            >
+              <MapPin className="h-3.5 w-3.5 text-primary" strokeWidth={1.5} />
+              Open in Google Maps
+            </a>
+          </div>
         </div>
       </div>
     </section>

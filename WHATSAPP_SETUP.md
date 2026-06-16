@@ -1,6 +1,6 @@
 # WhatsApp Notifications (Meta Cloud API)
 
-Pearl Beauty & Spa sends booking and queue alerts via the **WhatsApp Cloud API**
+Pearl sends booking and queue alerts via the **WhatsApp Cloud API**
 (Meta). This is the **active** notification channel.
 
 ## How sending works
@@ -70,18 +70,18 @@ Type of variable: **Number** (`{{1}}`, `{{2}}`, …).
 
 **`appointment_scheduling`** (booking submitted):
 ```
-Hi {{1}}, we've received your booking for {{2}} on {{3}}. We'll confirm it shortly. Thank you! - Pearl Beauty & Spa
+Hi {{1}}, we've received your booking for {{2}} on {{3}}. We'll confirm it shortly. Thank you! - Pearl
 ```
 Samples: Priya | Gold Facial | Monday, June 16, 2026 at 11:00 AM
 
 **`appointment_confirmed`:**
 ```
-Hi {{1}}, your appointment for {{2}} on {{3}} is confirmed. We can't wait to see you! - Pearl Beauty & Spa
+Hi {{1}}, your appointment for {{2}} on {{3}} is confirmed. We can't wait to see you! - Pearl
 ```
 
 **`appointment_cancelled`:**
 ```
-Hi {{1}}, your appointment for {{2}} on {{3}} has been cancelled. Message us anytime to rebook. - Pearl Beauty & Spa
+Hi {{1}}, your appointment for {{2}} on {{3}} has been cancelled. Message us anytime to rebook. - Pearl
 ```
 
 ### Queue + business templates

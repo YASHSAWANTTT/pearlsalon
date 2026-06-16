@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { SALON_NAME } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 const LOGO_SRC = "/pearl-logo.png";
@@ -36,7 +37,7 @@ export function PearlLogo({
   const image = (
     <Image
       src={src}
-      alt="Pearl Beauty & Spa Salon"
+      alt={SALON_NAME}
       width={width}
       height={height}
       priority={priority}

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { MessageCircle } from "lucide-react";
 import { FOOTER_LOGO_SRC, PearlLogo } from "@/components/layout/pearl-logo";
-import { SALON_CONTACT } from "@/lib/constants";
+import { SALON_CONTACT, SALON_NAME } from "@/lib/constants";
 
 function SocialIcon({
   children,
@@ -15,8 +15,8 @@ function SocialIcon({
   return (
     <a
       href={href}
-      target={href.startsWith("http") ? "_blank" : undefined}
-      rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+      target="_blank"
+      rel="noopener noreferrer"
       aria-label={label}
       className="flex h-9 w-9 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:border-primary hover:text-primary"
     >
@@ -67,33 +67,24 @@ export function PublicFooter() {
               <SocialIcon label="WhatsApp" href={SALON_CONTACT.whatsappUrl}>
                 <MessageCircle className="h-4 w-4 text-[#25D366]" />
               </SocialIcon>
-              <SocialIcon label="Instagram" href="#">
+              <SocialIcon label="Instagram" href={SALON_CONTACT.instagramUrl}>
                 <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <rect x="2" y="2" width="20" height="20" rx="5" />
                   <circle cx="12" cy="12" r="4" />
                   <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
                 </svg>
               </SocialIcon>
-              <SocialIcon label="Facebook" href="#">
+              <SocialIcon label="Facebook" href={SALON_CONTACT.facebookUrl}>
                 <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" />
                 </svg>
               </SocialIcon>
             </div>
-            <a
-              href={SALON_CONTACT.whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex w-fit items-center gap-2 text-sm font-medium text-[#128C7E] hover:underline dark:text-[#25D366]"
-            >
-              <MessageCircle className="h-4 w-4" />
-              Message us on WhatsApp
-            </a>
           </div>
         </div>
 
         <div className="mt-12 flex flex-col gap-4 border-t border-border pt-8 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} Pearl Beauty &amp; Spa Salon. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} {SALON_NAME}. All rights reserved.</p>
           <p className="flex flex-wrap gap-2">
             <span>Crafted with care</span>
             <span>·</span>
