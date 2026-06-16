@@ -7,9 +7,6 @@ const isAdminRoute = createRouteMatcher(["/admin(.*)"]);
 const isSignUpRoute = createRouteMatcher(["/sign-up(.*)"]);
 
 export default clerkMiddleware(
-  {
-    authorizedParties: getClerkAuthorizedParties(),
-  },
   async (auth, req) => {
     if (isSignUpRoute(req)) {
       return NextResponse.redirect(new URL("/sign-in", req.url));
@@ -33,6 +30,9 @@ export default clerkMiddleware(
         return NextResponse.redirect(new URL("/sign-in", req.url));
       }
     }
+  },
+  {
+    authorizedParties: getClerkAuthorizedParties(),
   }
 );
 
