@@ -47,6 +47,10 @@ npm run db:seed
 
 ### 4. Clerk setup
 
+See **[CLERK_SETUP.md](./CLERK_SETUP.md)** for production deployment on `trypearlbeauty.com`.
+
+Quick dev setup:
+
 1. Create a Clerk application at [clerk.com](https://clerk.com)
 2. Add your keys to `.env.local`
 3. Customize the session token in Clerk Dashboard → Sessions → Customize session token:

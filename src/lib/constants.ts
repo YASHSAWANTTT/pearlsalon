@@ -14,6 +14,9 @@ export const SALON_CONTACT = {
     "https://maps.google.com/maps?width=100%25&height=600&hl=en&q=19.2239083,72.9788826&z=16&ie=UTF8&iwloc=B&output=embed",
 } as const;
 
+/** Default transactional sender once trypearlbeauty.com is verified in Resend. */
+export const SALON_EMAIL_FROM = `Pearl <hello@trypearlbeauty.com>`;
+
 export const APPOINTMENT_STATUSES = [
   "pending",
   "confirmed",

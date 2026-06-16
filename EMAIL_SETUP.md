@@ -13,43 +13,25 @@ Pearl sends email alongside WhatsApp for the same booking and queue events. Emai
 
 Customer emails are skipped when no email was provided. Business emails are skipped when no recipients are configured.
 
-## No domain yet? (testing with API key only)
+## Production (trypearlbeauty.com — verified)
 
-Resend lets you send **without verifying a domain** using their sandbox sender `onboarding@resend.dev`. The catch: emails can **only go to the address you used to sign up for Resend** — not arbitrary customer inboxes.
-
-Add to `.env.local` (and Vercel when you deploy):
+`trypearlbeauty.com` is verified in Resend. Set these on **Vercel** (and in `.env.local` for local dev):
 
 ```bash
 RESEND_API_KEY=re_...
-RESEND_FROM_EMAIL=Pearl <onboarding@resend.dev>
-RESEND_BUSINESS_EMAIL=you@gmail.com
+RESEND_FROM_EMAIL=Pearl <hello@trypearlbeauty.com>
+RESEND_BUSINESS_EMAIL=your-inbox@example.com
 ```
 
-Replace `you@gmail.com` with the **exact email on your Resend account**.
+- `RESEND_FROM_EMAIL` can be any address `@trypearlbeauty.com` (you don’t need a real mailbox for the sender).
+- `RESEND_BUSINESS_EMAIL` is where owner alerts go — use whatever inbox you actually check (personal email is fine).
+- Customer emails work for **any** address entered on the booking form.
 
-**How to test:**
+If `RESEND_FROM_EMAIL` is unset, the app defaults to `Pearl <hello@trypearlbeauty.com>`.
 
-1. Book an appointment using **that same email** in the form’s email field.
-2. You should get the customer confirmation email and the business alert.
-3. Confirm or cancel the appointment in admin — those emails land in the same inbox.
+## Sandbox only (no verified domain)
 
-If you book with a different email, Resend returns a 403 and you’ll see `[email] send failed (403)` in the logs. That’s expected until you verify a domain.
-
-The app defaults `RESEND_FROM_EMAIL` to `onboarding@resend.dev` when unset, so you only **need** `RESEND_API_KEY` and `RESEND_BUSINESS_EMAIL` for sandbox testing.
-
-## Production setup (custom domain)
-
-When you have a domain (e.g. `pearlsalon.in`):
-
-1. Add it under [resend.com/domains](https://resend.com/domains) and add the DNS records Resend gives you.
-2. After verification, switch env vars:
-
-```bash
-RESEND_FROM_EMAIL=Pearl <hello@yourdomain.com>
-RESEND_BUSINESS_EMAIL=owner@yourdomain.com
-```
-
-Then customer emails work for **any** address they enter on the booking form.
+Resend’s `onboarding@resend.dev` sender only delivers to the email on your Resend account. Use that for early testing, not production.
 
 ## Setup
 
@@ -60,11 +42,11 @@ Then customer emails work for **any** address they enter on the booking form.
 
 ```bash
 RESEND_API_KEY=re_...
-RESEND_FROM_EMAIL=Pearl <hello@yourdomain.com>
-RESEND_BUSINESS_EMAIL=owner@yourdomain.com
+RESEND_FROM_EMAIL=Pearl <hello@trypearlbeauty.com>
+RESEND_BUSINESS_EMAIL=your-inbox@example.com
 ```
 
-- `RESEND_FROM_EMAIL` must use a verified domain (or use `onboarding@resend.dev` for testing to your own inbox only).
+- `RESEND_FROM_EMAIL` must use a verified domain (`trypearlbeauty.com`).
 - `RESEND_BUSINESS_EMAIL` is the salon owner inbox; active staff Clerk emails are included automatically.
 
 ## Testing locally
