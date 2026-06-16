@@ -32,10 +32,16 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.local.example
 
 # vercel
 .vercel
 
-# typescript
-*.tsbuildinfo
-next-env.d.ts
+# uploaded logbook photos
+/public/uploads/
+
+# large local media (host on CDN / Vercel Blob; GitHub limit is 100MB per file)
+public/*.mp4
+
+# typescript build cache
+tsconfig.tsbuildinfo
