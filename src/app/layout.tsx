@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/theme-provider";
 import { MobileDockShell } from "@/components/layout/mobile-dock-shell";
 import { SALON_NAME, SALON_TAGLINE } from "@/lib/constants";
+import { SITE_METADATA, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const inter = Inter({
@@ -19,11 +20,39 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
     default: SALON_NAME,
     template: `%s | ${SALON_NAME}`,
   },
   description: SALON_TAGLINE,
+  applicationName: SALON_NAME,
+  keywords: [
+    "Pearl Beauty Salon",
+    "spa Thane",
+    "salon Thane West",
+    "beauty salon booking",
+    "facial waxing threading",
+  ],
+  authors: [{ name: SALON_NAME }],
+  creator: SALON_NAME,
+  openGraph: {
+    type: "website",
+    locale: SITE_METADATA.locale,
+    url: SITE_URL,
+    siteName: SALON_NAME,
+    title: SALON_NAME,
+    description: SALON_TAGLINE,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SALON_NAME,
+    description: SALON_TAGLINE,
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
