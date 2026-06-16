@@ -11,7 +11,9 @@ import { useScroll, motion } from "motion/react";
 import { SALON_TAGLINE } from "@/lib/constants";
 import { ThemeToggle } from "@/components/theme-toggle";
 
-const HERO_VIDEO = "/0_Makeup_Lipstick_3840x2160.mp4";
+const HERO_VIDEO =
+  process.env.NEXT_PUBLIC_HERO_VIDEO_URL ??
+  "/0_Makeup_Lipstick_3840x2160.mp4";
 
 const menuItems = [
   { name: "Menu", href: "/services" },
