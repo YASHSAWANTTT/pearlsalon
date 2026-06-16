@@ -1,21 +1,10 @@
 import "server-only";
 
-import { formatSlotDate } from "@/lib/datetime";
 import { SALON_NAME } from "@/lib/constants";
+import { formatSlotDate } from "@/lib/datetime";
+import type { AppointmentInfo, QueueInfo } from "@/lib/notifications/types";
 
-export type AppointmentInfo = {
-  customerName: string;
-  customerPhone: string;
-  serviceName: string;
-  scheduledAtIso: string;
-};
-
-export type QueueInfo = {
-  customerName: string;
-  customerPhone: string;
-  serviceName: string;
-  position: number;
-};
+export type { AppointmentInfo, QueueInfo };
 
 function when(iso: string) {
   return formatSlotDate(iso);

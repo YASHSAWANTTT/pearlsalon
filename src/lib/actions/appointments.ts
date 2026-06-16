@@ -48,6 +48,7 @@ export async function createAppointment(formData: FormData) {
   await notifyAppointmentCreated({
     customerName: appointment.customerName,
     customerPhone: appointment.customerPhone,
+    customerEmail: appointment.customerEmail,
     serviceName: service?.name ?? "your service",
     scheduledAtIso: appointment.scheduledAt.toISOString(),
   });
@@ -80,6 +81,7 @@ export async function updateAppointmentStatus(formData: FormData) {
         {
           customerName: record.appointment.customerName,
           customerPhone: record.appointment.customerPhone,
+          customerEmail: record.appointment.customerEmail,
           serviceName: record.service.name,
           scheduledAtIso: record.appointment.scheduledAt.toISOString(),
         },

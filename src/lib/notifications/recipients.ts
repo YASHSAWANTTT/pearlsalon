@@ -36,3 +36,22 @@ export async function getBusinessRecipients(): Promise<string[]> {
 
   return [...recipients];
 }
+
+/** Owner inbox + active staff Clerk emails for business alerts. */
+export async function getBusinessEmailRecipients(): Promise<string[]> {
+  const recipients = new Set<string>();
+
+  const owner = process.env.RESEND_BUSINESS_EMAIL;
+  if (owner) recipients.add(owner);
+
+  try {
+    const staff = await getAllStaff();
+    for (const member of staff) {
+      if (member.isActive && member.email) recipients.add(member.email);
+    }
+  } catch {
+    // best-effort
+  }
+
+  return [...recipients];
+}
