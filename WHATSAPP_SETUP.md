@@ -108,14 +108,55 @@ Hi {{1}}, your appointment for {{2}} on {{3}} has been cancelled. Message us any
 
 Business recipients = `WHATSAPP_BUSINESS_OWNER_PHONE` + active staff phones in **Admin → Staff**.
 
-## 5. Testing tips
+## 5. Webhook setup (Vercel)
+
+Configure in **Meta App Dashboard → WhatsApp → Configuration → Webhook**:
+
+| Field | Value |
+|-------|--------|
+| **Callback URL** | `https://pearlsalon.vercel.app/api/webhooks/whatsapp` |
+| **Verify token** | Same string as `WHATSAPP_WEBHOOK_VERIFY_TOKEN` in Vercel env |
+
+### Vercel environment variables
+
+Add these (in addition to your existing WhatsApp vars):
+
+```env
+WHATSAPP_WEBHOOK_VERIFY_TOKEN=choose-a-long-random-string-you-remember
+WHATSAPP_APP_SECRET=your_meta_app_secret
+```
+
+`WHATSAPP_APP_SECRET` is under **Meta App Dashboard → App settings → Basic → App secret**.
+It validates incoming POST webhooks (`X-Hub-Signature-256`).
+
+### Subscribe to webhook fields
+
+After verifying, click **Manage** and subscribe to:
+
+- `messages` — inbound customer replies (opens 24h free-text window)
+- `message_template_status_update` — optional, template approval alerts
+
+### Unpublished app note
+
+While your Meta app is **unpublished**, you only receive **test webhooks** from the
+dashboard. Publish the app when you go live so production message events are delivered.
+
+### Verify it worked
+
+1. Deploy the latest code to Vercel (includes `/api/webhooks/whatsapp`).
+2. Set env vars on Vercel → **Redeploy**.
+3. In Meta, click **Verify and save** on the webhook form.
+4. Send a test message from API Setup — check **Vercel → Logs** for
+   `[whatsapp webhook] inbound message` or `status update`.
+
+## 6. Testing tips
 
 1. Message your business WhatsApp number from your personal phone first.
 2. Book an appointment on the site — you should receive a **free-form** friendly text.
 3. For a brand-new number that never messaged you, the app falls back to the **template**.
 4. Check server logs for `[whatsapp] text failed` / `send failed` if nothing arrives.
 
-## 6. Optional: Twilio SMS
+## 7. Optional: Twilio SMS
 
 Twilio code remains in `src/lib/twilio/` as an alternative. To switch back, change
 `src/lib/notifications/notify.ts` to re-export from `@/lib/twilio/notify`.
