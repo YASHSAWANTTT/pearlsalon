@@ -1,5 +1,6 @@
 import { SignIn } from "@clerk/nextjs";
 import Link from "next/link";
+import { SignInSignOut } from "@/components/auth/sign-in-sign-out";
 import { SALON_NAME } from "@/lib/constants";
 
 type Props = {
@@ -60,7 +61,12 @@ export default async function SignInPage({ searchParams }: Props) {
                 This account does not have staff access. Contact your salon admin if
                 you need portal access.
               </p>
-              <Link href="/" className="mt-2 inline-block text-amber-900 underline">
+              <p className="mt-2 text-amber-800">
+                If your role was just updated in Clerk, sign out and sign in again
+                so your session picks up the change.
+              </p>
+              <SignInSignOut variant="banner" />
+              <Link href="/" className="mt-3 inline-block text-amber-900 underline">
                 Back to salon website
               </Link>
             </div>
@@ -83,6 +89,10 @@ export default async function SignInPage({ searchParams }: Props) {
               },
             }}
           />
+
+          <div className="mt-4 flex justify-center">
+            <SignInSignOut />
+          </div>
 
           <p className="mt-6 text-center text-xs text-muted-foreground lg:hidden">
             <Link href="/" className="hover:text-foreground">
