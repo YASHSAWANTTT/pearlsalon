@@ -18,90 +18,145 @@ export default async function OpenGraphImage() {
           height: "100%",
           display: "flex",
           flexDirection: "column",
-          justifyContent: "space-between",
-          background: `linear-gradient(135deg, ${OG_COLORS.cream} 0%, ${OG_COLORS.blush} 48%, #EFE6E3 100%)`,
+          background: `linear-gradient(135deg, ${OG_COLORS.cream} 0%, ${OG_COLORS.blush} 50%, #EDE4E0 100%)`,
           position: "relative",
           overflow: "hidden",
         }}
       >
         <div
           style={{
+            display: "flex",
             position: "absolute",
-            top: -120,
-            right: -80,
-            width: 420,
-            height: 420,
+            top: -100,
+            right: -60,
+            width: 380,
+            height: 380,
             borderRadius: "50%",
-            border: `1px solid rgba(142, 27, 46, 0.12)`,
+            border: "1px solid rgba(142, 27, 46, 0.1)",
           }}
         />
         <div
           style={{
+            display: "flex",
             position: "absolute",
-            bottom: -160,
-            left: -100,
-            width: 360,
-            height: 360,
+            bottom: -140,
+            left: -80,
+            width: 320,
+            height: 320,
             borderRadius: "50%",
-            background: "rgba(142, 27, 46, 0.04)",
+            background: "rgba(142, 27, 46, 0.05)",
           }}
         />
 
         <div
           style={{
             display: "flex",
-            flexDirection: "column",
-            padding: "72px 80px",
             flex: 1,
+            alignItems: "center",
             justifyContent: "center",
+            gap: 64,
+            padding: "48px 72px",
           }}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={logo} alt="" width={220} height={96} />
-
-          <p
+          {/* Logo — square source, render at native aspect ratio */}
+          <div
             style={{
-              marginTop: 40,
-              fontSize: 22,
-              letterSpacing: "0.32em",
-              textTransform: "uppercase",
-              color: OG_COLORS.burgundy,
-              fontFamily: "Georgia, serif",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 340,
+              height: 340,
+              borderRadius: 24,
+              background: "rgba(255,255,255,0.72)",
+              boxShadow: "0 24px 60px rgba(142, 27, 46, 0.1)",
             }}
           >
-            Beauty & Spa Salon
-          </p>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={logo}
+              alt=""
+              width={300}
+              height={300}
+              style={{ objectFit: "contain" }}
+            />
+          </div>
 
-          <h1
+          <div
             style={{
-              marginTop: 16,
-              fontSize: 72,
-              fontWeight: 400,
-              lineHeight: 1.05,
-              color: OG_COLORS.ink,
-              fontFamily: "Georgia, serif",
-              fontStyle: "italic",
-              maxWidth: 900,
+              display: "flex",
+              width: 4,
+              height: 220,
+              background: `linear-gradient(180deg, transparent 0%, ${OG_COLORS.burgundy} 50%, transparent 100%)`,
+              opacity: 0.35,
+            }}
+          />
+
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              maxWidth: 560,
             }}
           >
-            {SALON_TAGLINE}
-          </h1>
+            <p
+              style={{
+                margin: 0,
+                fontSize: 20,
+                letterSpacing: "0.34em",
+                textTransform: "uppercase",
+                color: OG_COLORS.burgundy,
+                fontFamily: "Helvetica, Arial, sans-serif",
+              }}
+            >
+              {SALON_NAME} Beauty & Spa
+            </p>
 
-          <p
-            style={{
-              marginTop: 28,
-              fontSize: 26,
-              color: OG_COLORS.muted,
-              fontFamily: "Helvetica, Arial, sans-serif",
-            }}
-          >
-            {SITE_METADATA.location} · Book online
-          </p>
+            <h1
+              style={{
+                margin: "20px 0 0",
+                fontSize: 58,
+                fontWeight: 400,
+                lineHeight: 1.12,
+                color: OG_COLORS.ink,
+                fontFamily: "Georgia, serif",
+                fontStyle: "italic",
+              }}
+            >
+              {SALON_TAGLINE}
+            </h1>
+
+            <p
+              style={{
+                margin: "28px 0 0",
+                fontSize: 24,
+                color: OG_COLORS.muted,
+                fontFamily: "Helvetica, Arial, sans-serif",
+              }}
+            >
+              {SITE_METADATA.location}
+            </p>
+
+            <p
+              style={{
+                margin: "12px 0 0",
+                fontSize: 18,
+                letterSpacing: "0.22em",
+                textTransform: "uppercase",
+                color: OG_COLORS.burgundy,
+                fontFamily: "Helvetica, Arial, sans-serif",
+                opacity: 0.85,
+              }}
+            >
+              Book online · Walk-ins welcome
+            </p>
+          </div>
         </div>
 
         <div
           style={{
-            height: 6,
+            display: "flex",
+            height: 5,
             width: "100%",
             background: `linear-gradient(90deg, ${OG_COLORS.burgundy} 0%, #B83248 50%, ${OG_COLORS.burgundy} 100%)`,
           }}
