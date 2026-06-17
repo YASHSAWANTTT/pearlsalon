@@ -61,6 +61,10 @@ export const staffProfiles = pgTable("staff_profiles", {
   phone: varchar("phone", { length: 50 }),
   role: staffRoleEnum("role").notNull().default("staff"),
   isActive: boolean("is_active").notNull().default(true),
+  lastSeenAppointmentsAt: timestamp("last_seen_appointments_at", {
+    withTimezone: true,
+  }),
+  lastSeenQueueAt: timestamp("last_seen_queue_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
 

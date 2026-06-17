@@ -2,30 +2,30 @@ import Link from "next/link";
 
 const offers = [
   {
-    label: "— FIRST VISIT",
-    title: "The Welcome Ritual",
+    label: "WEEKDAY MORNINGS",
+    title: "Morning Special",
     description:
-      "Complimentary express facial with any first booking. Let us introduce you to the Pearl experience.",
-    highlight: "Free",
-    footer: "New guests · One per person",
-    featured: true,
-  },
-  {
-    label: "MIDWEEK",
-    title: "Quiet Tuesdays",
-    description:
-      "Enjoy a slower pace and deeper relaxation with 25% off select spa treatments every Tuesday.",
-    highlight: "25%",
-    footer: "Off select treatments",
+      "20% off all waxing services when you visit between 11 AM and 2 PM, Monday through Friday.",
+    highlight: "20%",
+    footer: "11 AM – 2 PM · All waxing services",
     featured: false,
   },
   {
-    label: "TOGETHER",
-    title: "Duo Escape",
+    label: "TUESDAY",
+    title: "Tuesday Glow Deal",
     description:
-      "Two side-by-side massages with champagne and a shared relaxation lounge experience.",
-    highlight: "$180",
-    footer: "For two guests · Save $40",
+      "Fruit Facial + Face Bleach bundled together — glowing skin at a sweeter price.",
+    highlight: "₹799",
+    footer: "Usually ₹900 · Tuesdays only",
+    featured: true,
+  },
+  {
+    label: "COMBO",
+    title: "Full Glam",
+    description:
+      "Facial, waxing, and threading in one visit — 15% off when you book the complete package.",
+    highlight: "15%",
+    footer: "Facial + waxing + threading",
     featured: false,
   },
 ];
@@ -35,12 +35,13 @@ export function SpecialOffers() {
     <section className="bg-secondary/40 py-16 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="text-center">
-          <p className="eyebrow">Limited time</p>
+          <p className="eyebrow">Current offers</p>
           <h2 className="mt-4 font-serif text-3xl font-light text-foreground sm:text-4xl md:text-5xl">
             Special <span className="italic text-primary">offers</span>
           </h2>
           <p className="mx-auto mt-4 max-w-md text-sm text-muted-foreground">
-            Treat yourself, or someone you love. These seasonal indulgences won&apos;t last long.
+            Thoughtful savings on the treatments you love most. Mention your offer when you book or
+            check in.
           </p>
         </div>
 
@@ -88,6 +89,24 @@ export function SpecialOffers() {
             </article>
           ))}
         </div>
+
+        <article className="mt-6 rounded-2xl border border-border bg-card p-6 shadow-sm sm:mt-8 sm:p-8">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="max-w-2xl">
+              <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-primary">
+                Refer a friend
+              </p>
+              <h3 className="mt-3 font-serif text-2xl text-foreground">
+                You both get 10% off
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                Bring a friend to Pearl — you each receive 10% off your visit. Word of mouth in
+                Dhokali and Thane is powerful, and it costs you nothing upfront.
+              </p>
+            </div>
+            <p className="shrink-0 font-serif text-4xl text-primary sm:text-5xl">10%</p>
+          </div>
+        </article>
 
         <div className="mt-10 text-center">
           <Link

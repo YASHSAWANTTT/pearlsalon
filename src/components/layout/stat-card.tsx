@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { LucideIcon } from "lucide-react";
+import { AttentionBadge } from "@/components/layout/attention-badge";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -8,10 +9,19 @@ type Props = {
   icon?: LucideIcon;
   href?: string;
   hint?: string;
+  badgeCount?: number;
   className?: string;
 };
 
-export function StatCard({ label, value, icon: Icon, href, hint, className }: Props) {
+export function StatCard({
+  label,
+  value,
+  icon: Icon,
+  href,
+  hint,
+  badgeCount = 0,
+  className,
+}: Props) {
   const body = (
     <div
       className={cn(
@@ -25,8 +35,14 @@ export function StatCard({ label, value, icon: Icon, href, hint, className }: Pr
           {label}
         </p>
         {Icon && (
-          <span className="flex h-9 w-9 items-center justify-center rounded-md bg-secondary text-primary">
+          <span className="relative flex h-9 w-9 items-center justify-center rounded-md bg-secondary text-primary">
             <Icon className="h-4 w-4" strokeWidth={1.75} />
+            {badgeCount > 0 && (
+              <AttentionBadge
+                count={badgeCount}
+                className="absolute -right-1.5 -top-1.5 h-4 min-w-4 px-1 text-[9px]"
+              />
+            )}
           </span>
         )}
       </div>

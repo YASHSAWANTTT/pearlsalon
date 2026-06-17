@@ -7,9 +7,15 @@ import { Button } from "@/components/ui/button";
 import { PageHeader } from "@/components/layout/page-header";
 import { StatCard } from "@/components/layout/stat-card";
 import { Reveal } from "@/components/layout/reveal";
+import { AttentionBadge } from "@/components/layout/attention-badge";
+import { getStaffProfile } from "@/lib/auth";
 import { getSalonTimezone, formatPrice } from "@/lib/constants";
 import { getTodayAppointmentCount } from "@/lib/queries/appointments";
 import { getActiveQueueCount } from "@/lib/queries/queue";
+import {
+  getUnreadAppointmentCount,
+  getUnreadQueueCount,
+} from "@/lib/queries/staff-attention";
 import { getDailyTotals, getRecentLogEntries } from "@/lib/queries/logbook";
 
 export const metadata = { title: "Staff Dashboard" };
@@ -21,17 +27,44 @@ export default async function StaffDashboard() {
   const dayStart = new Date(todayStr + "T00:00:00");
   const dayEnd = new Date(todayStr + "T23:59:59");
 
-  const [appointmentCount, queueCount, totals, recentLogs] = await Promise.all([
-    getTodayAppointmentCount(dayStart, dayEnd),
-    getActiveQueueCount(todayStr),
-    getDailyTotals(todayStr),
-    getRecentLogEntries(5),
-  ]);
+  const profile = await getStaffProfile();
+
+  const [appointmentCount, queueCount, totals, recentLogs, unreadAppointments, unreadQueue] =
+    await Promise.all([
+      getTodayAppointmentCount(dayStart, dayEnd),
+      getActiveQueueCount(todayStr),
+      getDailyTotals(todayStr),
+      getRecentLogEntries(5),
+      profile
+        ? getUnreadAppointmentCount(profile.lastSeenAppointmentsAt)
+        : Promise.resolve(0),
+      profile
+        ? getUnreadQueueCount(todayStr, profile.lastSeenQueueAt)
+        : Promise.resolve(0),
+    ]);
 
   const stats = [
-    { label: "Today's Appointments", value: appointmentCount, icon: Calendar, href: "/staff/appointments" },
-    { label: "In Queue", value: queueCount, icon: ListOrdered, href: "/staff/queue" },
-    { label: "Day Total", value: formatPrice(totals.net), icon: Wallet, href: "/staff/logbook" },
+    {
+      label: "Today's Appointments",
+      value: appointmentCount,
+      icon: Calendar,
+      href: "/staff/appointments",
+      badgeCount: unreadAppointments,
+    },
+    {
+      label: "In Queue",
+      value: queueCount,
+      icon: ListOrdered,
+      href: "/staff/queue",
+      badgeCount: unreadQueue,
+    },
+    {
+      label: "Day Total",
+      value: formatPrice(totals.net),
+      icon: Wallet,
+      href: "/staff/logbook",
+      badgeCount: 0,
+    },
   ];
 
   return (
@@ -50,6 +83,7 @@ export default async function StaffDashboard() {
             value={stat.value}
             icon={stat.icon}
             href={stat.href}
+            badgeCount={stat.badgeCount}
           />
         ))}
       </Reveal>
@@ -60,11 +94,21 @@ export default async function StaffDashboard() {
             <CardTitle className="font-serif text-lg font-normal">Quick Actions</CardTitle>
           </CardHeader>
           <CardContent className="flex flex-wrap gap-3">
-            <Button asChild>
-              <Link href="/staff/queue">Manage Queue</Link>
+            <Button asChild className="relative">
+              <Link href="/staff/queue">
+                Manage Queue
+                {unreadQueue > 0 && (
+                  <AttentionBadge count={unreadQueue} className="ml-2" />
+                )}
+              </Link>
             </Button>
-            <Button asChild variant="outline">
-              <Link href="/staff/appointments">View Appointments</Link>
+            <Button asChild variant="outline" className="relative">
+              <Link href="/staff/appointments">
+                View Appointments
+                {unreadAppointments > 0 && (
+                  <AttentionBadge count={unreadAppointments} className="ml-2" />
+                )}
+              </Link>
             </Button>
             <Button asChild variant="outline">
               <Link href="/staff/logbook">

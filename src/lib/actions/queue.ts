@@ -77,6 +77,9 @@ export async function joinQueue(formData: FormData) {
     position: entry.position,
   });
 
+  revalidatePath("/staff", "layout");
+  revalidatePath("/staff/queue");
+
   return { success: true, entry };
 }
 
@@ -124,6 +127,7 @@ export async function updateQueueStatus(formData: FormData) {
     }
   }
 
+  revalidatePath("/staff", "layout");
   revalidatePath("/staff/queue");
   return { success: true };
 }
@@ -163,6 +167,7 @@ export async function callNextInQueue(queueDate: string) {
     "called"
   );
 
+  revalidatePath("/staff", "layout");
   revalidatePath("/staff/queue");
   return { success: true, entry: waiting };
 }

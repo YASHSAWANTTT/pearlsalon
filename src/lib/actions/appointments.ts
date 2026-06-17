@@ -82,6 +82,10 @@ export async function createAppointment(formData: FormData) {
     scheduledAtIso: appointment.scheduledAt.toISOString(),
   });
 
+  revalidatePath("/staff", "layout");
+  revalidatePath("/staff/appointments");
+  revalidatePath("/admin/appointments");
+
   return { success: true, appointment };
 }
 
@@ -119,6 +123,7 @@ export async function updateAppointmentStatus(formData: FormData) {
     }
   }
 
+  revalidatePath("/staff", "layout");
   revalidatePath("/staff/appointments");
   revalidatePath("/admin/appointments");
   return { success: true };

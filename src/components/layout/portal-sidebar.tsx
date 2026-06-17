@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import {
   ArrowLeftRight,
   Calendar,
@@ -17,14 +18,24 @@ import {
 import { UserButton } from "@clerk/nextjs";
 import { buttonVariants } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { AttentionBadge } from "@/components/layout/attention-badge";
+import {
+  markAppointmentsSeen,
+  markQueueSeen,
+} from "@/lib/actions/staff-attention";
 import { cn } from "@/lib/utils";
 
-type NavItem = { href: string; label: string; icon: LucideIcon };
+type NavItem = { href: string; label: string; icon: LucideIcon; badgeKey?: "appointments" | "queue" };
 
 const STAFF_NAV: NavItem[] = [
   { href: "/staff", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/staff/appointments", label: "Appointments", icon: Calendar },
-  { href: "/staff/queue", label: "Queue", icon: ListOrdered },
+  {
+    href: "/staff/appointments",
+    label: "Appointments",
+    icon: Calendar,
+    badgeKey: "appointments",
+  },
+  { href: "/staff/queue", label: "Queue", icon: ListOrdered, badgeKey: "queue" },
   { href: "/staff/logbook", label: "Logbook", icon: ClipboardList },
 ];
 
@@ -43,6 +54,10 @@ type Props = {
   variant: Variant;
   /** Whether the current staff user also has admin access (staff variant only). */
   isAdmin?: boolean;
+  badges?: {
+    appointments: number;
+    queue: number;
+  };
 };
 
 function Brand({ variant }: { variant: Variant }) {
@@ -62,11 +77,13 @@ function NavLinks({
   pathname,
   onNavigate,
   footer,
+  badges,
 }: {
   items: NavItem[];
   pathname: string;
   onNavigate?: () => void;
   footer?: React.ReactNode;
+  badges?: Props["badges"];
 }) {
   return (
     <nav className="flex-1 space-y-1 p-3">
@@ -76,6 +93,9 @@ function NavLinks({
           item.href === "/staff" || item.href === "/admin"
             ? pathname === item.href
             : pathname.startsWith(item.href);
+        const badgeCount =
+          item.badgeKey && badges ? badges[item.badgeKey] : 0;
+
         return (
           <Link
             key={item.href}
@@ -91,8 +111,19 @@ function NavLinks({
             {active && (
               <span className="absolute left-0 top-1/2 h-5 w-0.5 -translate-y-1/2 rounded-full bg-primary" />
             )}
-            <Icon className="h-4 w-4" strokeWidth={1.75} />
-            {item.label}
+            <span className="relative shrink-0">
+              <Icon className="h-4 w-4" strokeWidth={1.75} />
+              {badgeCount > 0 && (
+                <AttentionBadge
+                  count={badgeCount}
+                  className="absolute -right-2.5 -top-2.5 h-4 min-w-4 px-1 text-[9px]"
+                />
+              )}
+            </span>
+            <span className="flex-1">{item.label}</span>
+            {badgeCount > 0 && (
+              <AttentionBadge count={badgeCount} className="md:hidden" />
+            )}
           </Link>
         );
       })}
@@ -101,9 +132,31 @@ function NavLinks({
   );
 }
 
-export function PortalSidebar({ variant, isAdmin }: Props) {
+export function PortalSidebar({ variant, isAdmin, badges: initialBadges }: Props) {
   const pathname = usePathname();
   const items = variant === "admin" ? ADMIN_NAV : STAFF_NAV;
+  const [badges, setBadges] = useState(initialBadges);
+
+  useEffect(() => {
+    setBadges(initialBadges);
+  }, [initialBadges]);
+
+  useEffect(() => {
+    if (variant !== "staff" || !initialBadges) return;
+
+    if (pathname.startsWith("/staff/appointments")) {
+      setBadges((current) =>
+        current ? { ...current, appointments: 0 } : current
+      );
+      void markAppointmentsSeen();
+      return;
+    }
+
+    if (pathname.startsWith("/staff/queue")) {
+      setBadges((current) => (current ? { ...current, queue: 0 } : current));
+      void markQueueSeen();
+    }
+  }, [pathname, variant, initialBadges]);
 
   const crossLink =
     variant === "admin" ? (
@@ -130,7 +183,7 @@ export function PortalSidebar({ variant, isAdmin }: Props) {
         <div className="flex h-16 items-center border-b border-border px-6">
           <Brand variant={variant} />
         </div>
-        <NavLinks items={items} pathname={pathname} footer={crossLink} />
+        <NavLinks items={items} pathname={pathname} footer={crossLink} badges={badges} />
         <div className="flex items-center gap-3 border-t border-border p-4">
           <UserButton />
           <span className="text-xs text-muted-foreground">Manage account</span>
@@ -150,7 +203,7 @@ export function PortalSidebar({ variant, isAdmin }: Props) {
             <div className="flex h-16 items-center border-b border-border px-6">
               <Brand variant={variant} />
             </div>
-            <NavLinks items={items} pathname={pathname} footer={crossLink} />
+            <NavLinks items={items} pathname={pathname} footer={crossLink} badges={badges} />
           </SheetContent>
         </Sheet>
         <Brand variant={variant} />
