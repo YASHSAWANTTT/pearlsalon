@@ -3,7 +3,8 @@ import { auth } from "@clerk/nextjs/server";
 import { extractLogbookFromImage } from "@/lib/ai/extract-logbook";
 import { getRole } from "@/lib/auth";
 import { getActiveServices } from "@/lib/queries/services";
-import { saveLogbookPhoto } from "@/lib/uploads/logbook";
+import { rateLimitLogbookExtract } from "@/lib/rate-limit";
+import { readLogbookImage } from "@/lib/uploads/logbook";
 
 export const runtime = "nodejs";
 export const maxDuration = 120;
@@ -19,6 +20,14 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
+  const limited = await rateLimitLogbookExtract(userId);
+  if (!limited.ok) {
+    return NextResponse.json(
+      { error: "Scan limit reached. Please try again later." },
+      { status: 429, headers: { "Retry-After": String(limited.retryAfterSec) } }
+    );
+  }
+
   try {
     const formData = await req.formData();
     const file = formData.get("photo");
@@ -28,19 +37,15 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Photo is required" }, { status: 400 });
     }
 
-    const [photoUrl, services] = await Promise.all([
-      saveLogbookPhoto(file),
+    const [{ buffer, mime }, services] = await Promise.all([
+      readLogbookImage(file),
       getActiveServices(),
     ]);
 
-    const buffer = Buffer.from(await file.arrayBuffer());
     const base64 = buffer.toString("base64");
-    const mimeType = file.type || "image/jpeg";
-
-    const items = await extractLogbookFromImage(base64, mimeType, logDate, services);
+    const items = await extractLogbookFromImage(base64, mime, logDate, services);
 
     return NextResponse.json({
-      photoUrl,
       items: items.map((item) => ({
         logDate: item.logDate,
         entryType: item.entryType,
@@ -52,8 +57,7 @@ export async function POST(req: Request) {
         matchedServiceName: item.matchedServiceName,
       })),
     });
-  } catch (error) {
-    const message = error instanceof Error ? error.message : "Scan failed";
-    return NextResponse.json({ error: message }, { status: 500 });
+  } catch {
+    return NextResponse.json({ error: "Scan failed" }, { status: 500 });
   }
 }

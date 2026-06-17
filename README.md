@@ -48,6 +48,7 @@ npm run db:seed
 ### 4. Clerk setup
 
 See **[CLERK_SETUP.md](./CLERK_SETUP.md)** for production deployment on `trypearlbeauty.com`.
+See **[SECURITY.md](./SECURITY.md)** for production security checklist.
 
 Quick dev setup:
 

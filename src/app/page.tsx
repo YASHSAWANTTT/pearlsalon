@@ -1,12 +1,24 @@
+import type { Metadata } from "next";
 import { PublicFooter } from "@/components/layout/public-footer";
 import { HeroSection } from "@/components/ui/hero-section-5";
 import { SectionHeading } from "@/components/landing/section-heading";
 import { ServiceGrid } from "@/components/landing/service-grid";
 import { SpecialOffers } from "@/components/landing/special-offers";
 import { PlanVisit } from "@/components/landing/plan-visit";
+import { LocalBusinessJsonLd } from "@/components/seo/local-business-json-ld";
+import { SALON_FULL_NAME, SALON_SEO_DESCRIPTION } from "@/lib/constants";
 import { getActiveServices } from "@/lib/queries/services";
 import { getBusinessHours, getSalonSettings } from "@/lib/queries/settings";
+import { SITE_URL } from "@/lib/site";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: `${SALON_FULL_NAME} | Thane West`,
+  description: SALON_SEO_DESCRIPTION,
+  alternates: {
+    canonical: SITE_URL,
+  },
+};
 
 export default async function HomePage() {
   const [services, hours, settings] = await Promise.all([
@@ -19,6 +31,7 @@ export default async function HomePage() {
 
   return (
     <>
+      <LocalBusinessJsonLd hours={hours} />
       <HeroSection />
       <div className="bg-background">
         {/* Services menu */}

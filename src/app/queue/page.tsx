@@ -1,11 +1,20 @@
+import type { Metadata } from "next";
 import { Clock, ListOrdered, Smartphone } from "lucide-react";
 import { PublicHeader } from "@/components/layout/public-header";
 import { PublicFooter } from "@/components/layout/public-footer";
 import { JoinQueueForm } from "@/components/queue/join-form";
+import { SALON_FULL_NAME } from "@/lib/constants";
 import { getActiveServices } from "@/lib/queries/services";
 import { isSalonOpenToday } from "@/lib/slots";
+import { SITE_URL } from "@/lib/site";
 
-export const metadata = { title: "Join Walk-in Queue" };
+export const metadata: Metadata = {
+  title: "Join Walk-in Queue",
+  description: `Join the walk-in queue at ${SALON_FULL_NAME} in Thane West without an appointment.`,
+  alternates: {
+    canonical: `${SITE_URL}/queue`,
+  },
+};
 
 export default async function QueuePage({
   searchParams,

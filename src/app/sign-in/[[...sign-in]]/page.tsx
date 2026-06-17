@@ -1,7 +1,15 @@
+import type { Metadata } from "next";
 import { SignIn } from "@clerk/nextjs";
 import Link from "next/link";
 import { SignInSignOut } from "@/components/auth/sign-in-sign-out";
 import { SALON_NAME } from "@/lib/constants";
+
+export const metadata: Metadata = {
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 type Props = {
   searchParams: Promise<{ error?: string }>;

@@ -1,9 +1,9 @@
 import { ImageResponse } from "next/og";
-import { SALON_NAME, SALON_TAGLINE } from "@/lib/constants";
+import { SALON_FULL_NAME, SALON_TAGLINE } from "@/lib/constants";
 import { SITE_METADATA } from "@/lib/site";
 import { loadPearlLogoDataUrl, OG_COLORS } from "@/lib/og-shared";
 
-export const alt = `${SALON_NAME} — ${SALON_TAGLINE}`;
+export const alt = `${SALON_FULL_NAME} — ${SALON_TAGLINE}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -109,7 +109,7 @@ export default async function OpenGraphImage() {
                 fontFamily: "Helvetica, Arial, sans-serif",
               }}
             >
-              {SALON_NAME} Beauty & Spa
+              {SALON_FULL_NAME}
             </p>
 
             <h1

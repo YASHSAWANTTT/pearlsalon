@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { MessageCircle } from "lucide-react";
 import { FOOTER_LOGO_SRC, PearlLogo } from "@/components/layout/pearl-logo";
-import { SALON_CONTACT, SALON_NAME } from "@/lib/constants";
+import { SALON_CONTACT, SALON_FULL_NAME, SALON_SEO_DESCRIPTION } from "@/lib/constants";
 
 function SocialIcon({
   children,
@@ -40,7 +40,7 @@ export function PublicFooter() {
               imageClassName="sm:!h-28"
             />
             <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
-              A quiet place to feel like yourself again. Thank you for letting us care for you.
+              {SALON_SEO_DESCRIPTION}
             </p>
           </div>
 
@@ -85,7 +85,7 @@ export function PublicFooter() {
         </div>
 
         <div className="mt-12 flex flex-col gap-4 border-t border-border pt-8 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} {SALON_NAME}. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} {SALON_FULL_NAME}. All rights reserved.</p>
           <p className="flex flex-wrap gap-2">
             <span>Crafted with care</span>
             <span>·</span>

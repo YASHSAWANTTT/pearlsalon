@@ -34,7 +34,7 @@ export default async function StaffLogbookPage({ searchParams }: Props) {
     staffName: staff?.displayName ?? null,
     serviceId: entry.serviceId,
     serviceName: service?.name ?? null,
-    photoUrl: entry.photoUrl,
+    photoUrl: null,
     source: entry.source,
     createdAt: entry.createdAt.toISOString(),
   }));

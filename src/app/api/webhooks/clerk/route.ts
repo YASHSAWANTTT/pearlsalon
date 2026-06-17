@@ -5,6 +5,10 @@ import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import { staffProfiles } from "@/db/schema";
 
+function parseRole(value: unknown): "admin" | "staff" {
+  return value === "admin" || value === "staff" ? value : "staff";
+}
+
 export async function POST(req: Request) {
   const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
 
@@ -21,8 +25,7 @@ export async function POST(req: Request) {
     return new Response("Missing svix headers", { status: 400 });
   }
 
-  const payload = await req.json();
-  const body = JSON.stringify(payload);
+  const body = await req.text();
   const wh = new Webhook(WEBHOOK_SECRET);
 
   let evt: WebhookEvent;
@@ -40,8 +43,7 @@ export async function POST(req: Request) {
     const { id, first_name, last_name, email_addresses, public_metadata } =
       evt.data;
 
-    const role =
-      (public_metadata?.role as "admin" | "staff") ?? "staff";
+    const role = parseRole(public_metadata?.role);
     const displayName =
       [first_name, last_name].filter(Boolean).join(" ") ||
       email_addresses[0]?.email_address ||

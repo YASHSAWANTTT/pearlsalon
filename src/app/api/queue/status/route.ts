@@ -5,7 +5,7 @@ export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const token = searchParams.get("token");
 
-  if (!token) {
+  if (!token || token.length < 6 || token.length > 32) {
     return NextResponse.json({ error: "Token required" }, { status: 400 });
   }
 
@@ -26,6 +26,5 @@ export async function GET(req: Request) {
     position: result.entry.position,
     waitingAhead,
     status: result.entry.status,
-    lookupToken: result.entry.lookupToken,
   });
 }

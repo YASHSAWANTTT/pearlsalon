@@ -1,11 +1,20 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { PublicHeader } from "@/components/layout/public-header";
 import { PublicFooter } from "@/components/layout/public-footer";
 import { SectionHeading } from "@/components/landing/section-heading";
 import { ServiceMenu } from "@/components/landing/service-menu";
+import { SALON_FULL_NAME } from "@/lib/constants";
 import { getServicesByCategory } from "@/lib/queries/services";
+import { SITE_URL } from "@/lib/site";
 
-export const metadata = { title: "Services Menu" };
+export const metadata: Metadata = {
+  title: "Services Menu",
+  description: `Browse facials, waxing, threading, bleaching, and spa treatments at ${SALON_FULL_NAME} in Thane West.`,
+  alternates: {
+    canonical: `${SITE_URL}/services`,
+  },
+};
 
 export default async function ServicesPage() {
   const servicesByCategory = await getServicesByCategory();

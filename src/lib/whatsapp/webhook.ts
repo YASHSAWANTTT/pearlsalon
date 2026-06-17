@@ -37,7 +37,9 @@ export function verifyWebhookSignature(
   signatureHeader: string | null
 ): boolean {
   const secret = process.env.WHATSAPP_APP_SECRET;
-  if (!secret) return true; // optional in dev; set in production
+  if (!secret) {
+    return process.env.NODE_ENV !== "production";
+  }
   if (!signatureHeader?.startsWith("sha256=")) return false;
 
   const expected = createHmac("sha256", secret).update(rawBody).digest("hex");
@@ -90,12 +92,13 @@ export function handleWhatsAppWebhookPayload(payload: unknown) {
       if (!value) continue;
 
       for (const message of value.messages ?? []) {
-        console.info("[whatsapp webhook] inbound message", {
-          from: message.from,
-          type: message.type,
-          text: message.text?.body,
-          id: message.id,
-        });
+        if (process.env.NODE_ENV !== "production") {
+          console.info("[whatsapp webhook] inbound message", {
+            from: message.from,
+            type: message.type,
+            id: message.id,
+          });
+        }
       }
 
       for (const status of value.statuses ?? []) {

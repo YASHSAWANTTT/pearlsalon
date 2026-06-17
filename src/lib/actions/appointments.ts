@@ -1,6 +1,8 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { format } from "date-fns";
+import { toZonedTime } from "date-fns-tz";
 import { db } from "@/db";
 import { appointments } from "@/db/schema";
 import { eq } from "drizzle-orm";
@@ -9,14 +11,23 @@ import {
   updateAppointmentStatusSchema,
 } from "@/lib/validators/appointments";
 import { requireStaff } from "@/lib/auth";
+import { getSalonTimezone } from "@/lib/constants";
 import { getServiceById } from "@/lib/queries/services";
 import { getAppointmentById } from "@/lib/queries/appointments";
+import { getAvailableSlots } from "@/lib/slots";
 import {
   notifyAppointmentCreated,
   notifyAppointmentStatus,
 } from "@/lib/notifications/notify";
+import { getClientIp, rateLimitBooking } from "@/lib/rate-limit";
 
 export async function createAppointment(formData: FormData) {
+  const ip = await getClientIp();
+  const limited = await rateLimitBooking(ip);
+  if (!limited.ok) {
+    return { error: "Too many booking attempts. Please wait and try again." };
+  }
+
   const raw = {
     customerName: formData.get("customerName") as string,
     customerPhone: formData.get("customerPhone") as string,
@@ -31,6 +42,25 @@ export async function createAppointment(formData: FormData) {
     return { error: parsed.error.issues[0]?.message ?? "Invalid input" };
   }
 
+  const service = await getServiceById(parsed.data.serviceId);
+  if (!service?.isActive) {
+    return { error: "Please select a valid service." };
+  }
+
+  const scheduledAt = new Date(parsed.data.scheduledAt);
+  if (Number.isNaN(scheduledAt.getTime())) {
+    return { error: "Invalid appointment time." };
+  }
+
+  const timezone = getSalonTimezone();
+  const dateStr = format(toZonedTime(scheduledAt, timezone), "yyyy-MM-dd");
+  const available = await getAvailableSlots(dateStr, service.durationMinutes);
+  const scheduledIso = scheduledAt.toISOString();
+
+  if (!available.some((slot) => new Date(slot).toISOString() === scheduledIso)) {
+    return { error: "This time slot is no longer available. Please choose another." };
+  }
+
   const [appointment] = await db
     .insert(appointments)
     .values({
@@ -38,18 +68,17 @@ export async function createAppointment(formData: FormData) {
       customerPhone: parsed.data.customerPhone,
       customerEmail: parsed.data.customerEmail || null,
       serviceId: parsed.data.serviceId,
-      scheduledAt: new Date(parsed.data.scheduledAt),
+      scheduledAt,
       notes: parsed.data.notes || null,
       status: "pending",
     })
     .returning();
 
-  const service = await getServiceById(parsed.data.serviceId);
   await notifyAppointmentCreated({
     customerName: appointment.customerName,
     customerPhone: appointment.customerPhone,
     customerEmail: appointment.customerEmail,
-    serviceName: service?.name ?? "your service",
+    serviceName: service.name,
     scheduledAtIso: appointment.scheduledAt.toISOString(),
   });
 

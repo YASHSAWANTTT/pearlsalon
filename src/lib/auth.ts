@@ -14,6 +14,16 @@ export async function getRole(): Promise<UserRole> {
   return null;
 }
 
+async function assertActiveProfile(userId: string) {
+  const profile = await db.query.staffProfiles.findFirst({
+    where: eq(staffProfiles.clerkUserId, userId),
+  });
+
+  if (profile && !profile.isActive) {
+    redirect("/sign-in?error=unauthorized");
+  }
+}
+
 export async function requireAuth() {
   const { userId } = await auth();
   if (!userId) redirect("/sign-in");
@@ -25,6 +35,7 @@ export async function requireStaff() {
   const role = await getRole();
   if (!role) redirect("/sign-in?error=unauthorized");
   await syncStaffProfile();
+  await assertActiveProfile(userId);
   return { userId, role };
 }
 
@@ -33,6 +44,7 @@ export async function requireAdmin() {
   const role = await getRole();
   if (role !== "admin") redirect("/staff");
   await syncStaffProfile();
+  await assertActiveProfile(userId);
   return { userId, role };
 }
 
@@ -40,7 +52,9 @@ export async function syncStaffProfile() {
   const user = await currentUser();
   if (!user) return null;
 
-  const role = (user.publicMetadata?.role as "admin" | "staff") ?? "staff";
+  const metaRole = user.publicMetadata?.role as string | undefined;
+  const role =
+    metaRole === "admin" || metaRole === "staff" ? metaRole : "staff";
   const displayName =
     [user.firstName, user.lastName].filter(Boolean).join(" ") ||
     user.emailAddresses[0]?.emailAddress ||

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import Image from "next/image";
 import { Camera, Loader2, Trash2 } from "lucide-react";
 import { toast } from "sonner";
@@ -26,16 +26,30 @@ type Props = {
 export function LogbookPhotoScanner({ logDate, onSaved }: Props) {
   const [isScanning, setIsScanning] = useState(false);
   const [isSaving, startSave] = useTransition();
-  const [photoUrl, setPhotoUrl] = useState<string | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [items, setItems] = useState<ScannedItem[]>([]);
+
+  useEffect(() => {
+    return () => {
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+    };
+  }, [previewUrl]);
+
+  function clearPreview() {
+    if (previewUrl) URL.revokeObjectURL(previewUrl);
+    setPreviewUrl(null);
+  }
 
   async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
 
     setIsScanning(true);
-    setPhotoUrl(null);
+    clearPreview();
     setItems([]);
+
+    const objectUrl = URL.createObjectURL(file);
+    setPreviewUrl(objectUrl);
 
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 90_000);
@@ -54,7 +68,6 @@ export function LogbookPhotoScanner({ logDate, onSaved }: Props) {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Scan failed");
 
-      setPhotoUrl(data.photoUrl);
       setItems(
         data.items.map((item: ScannedItem) => ({
           logDate: item.logDate || logDate,
@@ -67,6 +80,7 @@ export function LogbookPhotoScanner({ logDate, onSaved }: Props) {
       );
       toast.success(`Found ${data.items.length} entries — review before saving`);
     } catch (error) {
+      clearPreview();
       if (error instanceof Error && error.name === "AbortError") {
         toast.error("Scan timed out. Try a smaller or clearer photo.");
       } else {
@@ -98,7 +112,6 @@ export function LogbookPhotoScanner({ logDate, onSaved }: Props) {
     startSave(async () => {
       const result = await bulkCreateLogEntries({
         logDate,
-        photoUrl: photoUrl ?? undefined,
         items,
       });
 
@@ -108,7 +121,7 @@ export function LogbookPhotoScanner({ logDate, onSaved }: Props) {
       }
 
       toast.success(`Added ${result.count} entries from photo`);
-      setPhotoUrl(null);
+      clearPreview();
       setItems([]);
       onSaved();
     });
@@ -124,7 +137,7 @@ export function LogbookPhotoScanner({ logDate, onSaved }: Props) {
         <div>
           <h2 className="font-serif text-lg text-foreground">Scan written logbook</h2>
           <p className="mt-1 text-sm text-muted-foreground">
-            Upload a photo of your handwritten book. AI will read the date, service, and price for each line.
+            Upload a photo of your handwritten book. AI reads each line — only the entries are saved, not the photo.
           </p>
         </div>
         <label className="shrink-0">
@@ -149,17 +162,19 @@ export function LogbookPhotoScanner({ logDate, onSaved }: Props) {
         </label>
       </div>
 
-      {photoUrl && (
+      {items.length > 0 && (
         <div className="grid gap-4 lg:grid-cols-[180px_1fr]">
-          <div className="relative aspect-[3/4] overflow-hidden rounded-lg border border-border bg-card">
-            <Image
-              src={photoUrl}
-              alt="Uploaded logbook"
-              fill
-              className="object-cover"
-              unoptimized
-            />
-          </div>
+          {previewUrl && (
+            <div className="relative aspect-[3/4] overflow-hidden rounded-lg border border-border bg-card">
+              <Image
+                src={previewUrl}
+                alt="Scanned logbook preview"
+                fill
+                className="object-cover"
+                unoptimized
+              />
+            </div>
+          )}
 
           <div className="space-y-3">
             <div className="flex items-center justify-between">
@@ -211,10 +226,7 @@ export function LogbookPhotoScanner({ logDate, onSaved }: Props) {
               ))}
             </div>
 
-            <Button
-              onClick={handleSave}
-              disabled={isSaving || items.length === 0}
-            >
+            <Button onClick={handleSave} disabled={isSaving || items.length === 0}>
               {isSaving ? "Saving…" : `Save ${items.length} entries`}
             </Button>
           </div>

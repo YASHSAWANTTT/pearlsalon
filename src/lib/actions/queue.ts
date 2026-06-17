@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { randomBytes } from "crypto";
 import { and, asc, eq } from "drizzle-orm";
 import { format } from "date-fns";
 import { toZonedTime } from "date-fns-tz";
@@ -16,17 +17,25 @@ import {
 } from "@/lib/validators/queue";
 import { isSalonOpenToday } from "@/lib/slots";
 import { notifyQueueJoined, notifyQueueStatus } from "@/lib/notifications/notify";
+import { getClientIp, rateLimitQueueJoin } from "@/lib/rate-limit";
 
 function generateToken(): string {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  const bytes = randomBytes(8);
   let token = "";
-  for (let i = 0; i < 6; i++) {
-    token += chars[Math.floor(Math.random() * chars.length)];
+  for (let i = 0; i < 8; i++) {
+    token += chars[bytes[i] % chars.length];
   }
   return token;
 }
 
 export async function joinQueue(formData: FormData) {
+  const ip = await getClientIp();
+  const limited = await rateLimitQueueJoin(ip);
+  if (!limited.ok) {
+    return { error: "Too many queue requests. Please wait and try again." };
+  }
+
   const open = await isSalonOpenToday();
   if (!open) {
     return { error: "The salon is closed today. Please come back during business hours." };

@@ -30,7 +30,6 @@ export async function createLogEntry(formData: FormData) {
     amount: formData.get("amount") as string,
     referenceId: (formData.get("referenceId") as string) || undefined,
     serviceId: (formData.get("serviceId") as string) || undefined,
-    photoUrl: (formData.get("photoUrl") as string) || undefined,
     source: (formData.get("source") as string) || "manual",
   };
 
@@ -48,7 +47,7 @@ export async function createLogEntry(formData: FormData) {
     staffId: profile?.id ?? null,
     referenceId: parsed.data.referenceId ?? null,
     serviceId: parsed.data.serviceId || null,
-    photoUrl: parsed.data.photoUrl ?? null,
+    photoUrl: null,
     source: parsed.data.source ?? "manual",
   });
 
@@ -110,7 +109,7 @@ export async function bulkCreateLogEntries(payload: unknown) {
     return { error: parsed.error.issues[0]?.message ?? "Invalid input" };
   }
 
-  const { items, photoUrl } = parsed.data;
+  const { items } = parsed.data;
 
   await db.insert(dailyLogEntries).values(
     items.map((item) => ({
@@ -121,7 +120,7 @@ export async function bulkCreateLogEntries(payload: unknown) {
       amount: item.amount.toString(),
       staffId: profile?.id ?? null,
       serviceId: item.serviceId ?? null,
-      photoUrl: photoUrl ?? null,
+      photoUrl: null,
       source: "ai" as const,
     }))
   );

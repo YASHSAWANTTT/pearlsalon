@@ -1,5 +1,13 @@
+import type { Metadata } from "next";
 import { requireStaff } from "@/lib/auth";
 import { PortalSidebar } from "@/components/layout/portal-sidebar";
+
+export const metadata: Metadata = {
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default async function StaffLayout({
   children,

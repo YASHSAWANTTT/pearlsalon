@@ -1,5 +1,21 @@
 export const SALON_NAME = "Pearl";
+export const SALON_FULL_NAME = "Pearl Beauty Salon";
 export const SALON_TAGLINE = "Where elegance meets relaxation";
+export const SALON_SEO_DESCRIPTION =
+  "Pearl Beauty Salon in Thane West offers facials, waxing, threading, bleaching, and spa treatments near Dhokali. Book online or join the walk-in queue.";
+
+export const SALON_ADDRESS = {
+  street: "Shop No 54, Vardhaman Vatika, Opp D mart, Dhokali",
+  locality: "Thane West",
+  region: "Maharashtra",
+  postalCode: "400607",
+  country: "IN",
+} as const;
+
+export const SALON_COORDINATES = {
+  latitude: 19.2239083,
+  longitude: 72.9788826,
+} as const;
 
 export const SALON_CONTACT = {
   address:
